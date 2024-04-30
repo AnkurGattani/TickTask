@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { TodoProvider } from './context';
 
@@ -21,6 +21,17 @@ function App() {
     setTodos((prev) => prev.map( (todoItem) => (todoItem.id === id ? {...todoItem, completed: !todoItem.completed} : todoItem) ))
   };
 
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"));
+
+    if(todos && todos.length > 0) {
+      setTodos(todos);
+    }
+  }, []) // to fetch the todos stored from previous sessions
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos])
   
   
 
